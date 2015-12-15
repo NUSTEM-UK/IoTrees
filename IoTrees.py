@@ -65,7 +65,7 @@ for tweet in tweet_iter:
 	#-----------------------------------------------------------------------
 	# check whether this is a valid tweet
 	#-----------------------------------------------------------------------
-	if "entities" not in tweet:
+    if "entities" not in tweet:
         continue
 	
 	#-----------------------------------------------------------------------
@@ -74,7 +74,7 @@ for tweet in tweet_iter:
 	mentions = tweet["entities"]["user_mentions"]
 	mentioned_users = [ mention["screen_name"] for mention in mentions ]
 	
-	if username in mentioned_users:
+    if username in mentioned_users:
         print "Tweet from @%s \n" % tweet["user"]["screen_name"]
         print "Tweet text: %s \n" % tweet["text"]
 
