@@ -62,22 +62,22 @@ tweet_iter = stream.user()
 
 
 for tweet in tweet_iter:
-	#-----------------------------------------------------------------------
-	# check whether this is a valid tweet
-	#-----------------------------------------------------------------------
+    #-----------------------------------------------------------------------
+    # check whether this is a valid tweet
+    #-----------------------------------------------------------------------
     if "entities" not in tweet:
         continue
-	
-	#-----------------------------------------------------------------------
-	# are we mentioned within this tweet?
-	#-----------------------------------------------------------------------
-	mentions = tweet["entities"]["user_mentions"]
-	mentioned_users = [ mention["screen_name"] for mention in mentions ]
+    
+    #-----------------------------------------------------------------------
+    # are we mentioned within this tweet?
+    #-----------------------------------------------------------------------
+    mentions = tweet["entities"]["user_mentions"]
+    mentioned_users = [ mention["screen_name"] for mention in mentions ]
 	
     if username in mentioned_users:
         print "Tweet from @%s \n" % tweet["user"]["screen_name"]
         print "Tweet text: %s \n" % tweet["text"]
-
+        
         # run hex extraction on text
         extract_hex = re.findall(r'#[0-9A-Fa-f]{6}', tweet["text"], re.I)
         print "Extracted hex codes: %s" % extract_hex
@@ -95,7 +95,7 @@ for tweet in tweet_iter:
             extract_kelvin = int(''.join(extract_kelvin)) # cast to integer
             kelvin_RGB = kelvin_to_rgb(extract_kelvin)
             print "Kelvin RGB target: %s" % (kelvin_RGB,)
-            
+        
             print "Execute Unicorn to Kelvin RGB target"
             colour_change(kelvin_RGB)
         
@@ -104,10 +104,10 @@ for tweet in tweet_iter:
             # discard all but first element, cast to string before passing to hex_to_rgb
             hex_RGB = hex_to_rgb(''.join(extract_hex[0]))
             print "Hex RGB target: %s" % (hex_RGB,)
-            
+        
             print "Execute Unicorn to Hex RGB target"
             colour_change(hex_RGB)
-		
+	    
         #-----------------------------------------------------------------------
         # update our status with a thank you message directed at the source.
         # use try/except to catch potential failures.
@@ -117,6 +117,6 @@ for tweet in tweet_iter:
         #     twitter.statuses.update(status = status)
         # except Exception, e:
         #     print " - failed (maybe a duplicate?): %s" % e
-	
+        
     time.sleep(sleep_time)
 
