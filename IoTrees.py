@@ -66,7 +66,7 @@ for tweet in tweet_iter:
 	# check whether this is a valid tweet
 	#-----------------------------------------------------------------------
 	if "entities" not in tweet:
-		continue
+        continue
 	
 	#-----------------------------------------------------------------------
 	# are we mentioned within this tweet?
@@ -75,9 +75,9 @@ for tweet in tweet_iter:
 	mentioned_users = [ mention["screen_name"] for mention in mentions ]
 	
 	if username in mentioned_users:
-	    print "Tweet from @%s \n" % tweet["user"]["screen_name"]
+        print "Tweet from @%s \n" % tweet["user"]["screen_name"]
         print "Tweet text: %s \n" % tweet["text"]
-        
+
         # run hex extraction on text
         extract_hex = re.findall(r'#[0-9A-Fa-f]{6}', tweet["text"], re.I)
         print "Extracted hex codes: %s" % extract_hex
@@ -108,15 +108,15 @@ for tweet in tweet_iter:
             print "Execute Unicorn to Hex RGB target"
             colour_change(hex_RGB)
 		
-		#-----------------------------------------------------------------------
-		# update our status with a thank you message directed at the source.
-		# use try/except to catch potential failures.
-		#-----------------------------------------------------------------------
-		# status = "@%s thanks for the mention" % tweet["user"]["screen_name"]
+        #-----------------------------------------------------------------------
+        # update our status with a thank you message directed at the source.
+        # use try/except to catch potential failures.
+        #-----------------------------------------------------------------------
+        # status = "@%s thanks for the mention" % tweet["user"]["screen_name"]
         # try:
         #     twitter.statuses.update(status = status)
         # except Exception, e:
         #     print " - failed (maybe a duplicate?): %s" % e
 	
-	time.sleep(sleep_time)
+    time.sleep(sleep_time)
 
