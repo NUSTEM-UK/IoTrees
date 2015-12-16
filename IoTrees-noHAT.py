@@ -19,16 +19,17 @@ from hex_to_rgb import *
 from twitter import *
 import time
 import re
-import unicornhat as unicorn
 
-unicorn.brightness(1.0)
+# import unicornhat as unicorn
 
-def colour_change(value):
-    for y in range(8):
-        for x in range(8):
-            unicorn.set_pixel(x,y,int(value[0]), int(value[1]), int(value[2]))
-            unicorn.show()
-            time.sleep(0.05)
+# unicorn.brightness(1.0)
+#
+# def colour_change(value):
+#     for y in range(8):
+#         for x in range(8):
+#             unicorn.set_pixel(x,y,int(value[0]), int(value[1]), int(value[2]))
+#             unicorn.show()
+#             time.sleep(0.05)
 
 #-----------------------------------------------------------------------
 # this is the username we're matching against.
@@ -98,7 +99,7 @@ for tweet in tweet_iter:
             print "Kelvin RGB target: %s" % (kelvin_RGB,)
         
             print "Execute Unicorn to Kelvin RGB target"
-            colour_change(kelvin_RGB)
+            # colour_change(kelvin_RGB)
         
         # Test if we have any hex results, then:
         elif len(extract_hex):
@@ -107,7 +108,7 @@ for tweet in tweet_iter:
             print "Hex RGB target: %s" % (hex_RGB,)
         
             print "Execute Unicorn to Hex RGB target"
-            colour_change(hex_RGB)
+            # colour_change(hex_RGB)
 	    
         #-----------------------------------------------------------------------
         # update our status with a thank you message directed at the source.
