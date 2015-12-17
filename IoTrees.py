@@ -1,17 +1,17 @@
 #!/usr/bin/python
 #-----------------------------------------------------------------------
 # Internet of Trees
-#  - sets Unicorn HAT colour from received Tweet data
-# Based on Twitter-Stream-Responder
-#
+# Run on a Raspberry Pi with Pimoroni Unicorn HAT; sets LED colour from 
+# received Tweet data.
+# 
+# Based heavilyon on example code from Python Twitter Tools, http://mike.verdone.ca/twitter/
 # Uses rgb_to_kelvin by petrklus, https://gist.github.com/petrklus/b1f427accdf7438606a6
 # itself based on work by Tanner Helland, http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
-#
 # Uses code based on Pimoroni Unicorn HAT examples,  https://github.com/pimoroni/unicorn-hat
+# Extract hex strings example from http://stackoverflow.com/questions/18737788/extract-hexadecimal-number-from-string
 #
-# Extract hex strings exmaple from http://stackoverflow.com/questions/18737788/extract-hexadecimal-number-from-string
-#
-# TODO: complete attributions here
+# Author: Jonathan Sanderson, for Think Physics, Northumbria University
+# 
 #-----------------------------------------------------------------------
 
 from kelvin_to_rgb import *
@@ -30,60 +30,45 @@ def colour_change(value):
             unicorn.show()
             time.sleep(0.05)
 
-#-----------------------------------------------------------------------
-# this is the username we're matching against.
-#-----------------------------------------------------------------------
+# Username we're treating tweets to as input
 username = "thinkphysicsne"
 
-#-----------------------------------------------------------------------
-# sleep for this number of seconds between tweets, to ensure we
-# don't flood
-#-----------------------------------------------------------------------
+# sleep between tweets to avoid flooding.
 sleep_time = 1
 
-#-----------------------------------------------------------------------
-# load our API credentials
-#-----------------------------------------------------------------------
+# load API credentials
 config = {}
 print("Loading config file\n")
 execfile("config.py", config)
 
-#-----------------------------------------------------------------------
-# create twitter API object
-#-----------------------------------------------------------------------
+# Create Twitter API object
 auth = OAuth(config["access_key"], config["access_secret"], config["consumer_key"], config["consumer_secret"])
 twitter = Twitter(auth = auth)
 stream = TwitterStream(domain = "userstream.twitter.com", auth = auth, secure = True)
 
-#-----------------------------------------------------------------------
-# iterate over tweets matching this filter text
-#-----------------------------------------------------------------------
+# Iterate over tweets for this user stream
 tweet_iter = stream.user()
-
-
 for tweet in tweet_iter:
-    #-----------------------------------------------------------------------
-    # check whether this is a valid tweet
-    #-----------------------------------------------------------------------
+    # Does this tweet contain any parsed entities? If not, skip it.
     if "entities" not in tweet:
         continue
     
-    #-----------------------------------------------------------------------
-    # are we mentioned within this tweet?
-    #-----------------------------------------------------------------------
+    # Extract user mentions
     mentions = tweet["entities"]["user_mentions"]
     mentioned_users = [ mention["screen_name"] for mention in mentions ]
 	
+    # Are any of those mentions for the watched user?
     if username in mentioned_users:
+        # Output sender and tweet text
         print "\n ========================================= \n"
         print "Tweet from @%s" % tweet["user"]["screen_name"]
         print "Tweet text: %s" % tweet["text"]
         
-        # run hex extraction on text
+        # Run hex extraction on text
         extract_hex = re.findall(r'#[0-9A-Fa-f]{6}', tweet["text"], re.I)
         print "Extracted hex codes: %s" % extract_hex
         
-        # run Kelvin extraction on text
+        # Run Kelvin extraction on text
         extract_kelvin = re.findall(r'[0-9]{4,6}[kK]', tweet["text"], re.I)
         print "Extracted Kelvin temperatures: %s" % extract_kelvin
         
@@ -96,23 +81,18 @@ for tweet in tweet_iter:
             extract_kelvin = int(''.join(extract_kelvin)) # cast to integer
             kelvin_RGB = kelvin_to_rgb(extract_kelvin)
             print "Kelvin RGB target: %s" % (kelvin_RGB,)
-        
             print "Execute Unicorn to Kelvin RGB target"
             colour_change(kelvin_RGB)
         
-        # Test if we have any hex results, then:
+        # Kelvin input preferred (because Physics, obviously), but fall back to hex if that's present:
         elif len(extract_hex):
-            # discard all but first element, cast to string before passing to hex_to_rgb
+            # discard all but first match, cast to string before passing to hex_to_rgb
             hex_RGB = hex_to_rgb(''.join(extract_hex[0]))
             print "Hex RGB target: %s" % (hex_RGB,)
-        
             print "Execute Unicorn to Hex RGB target"
             colour_change(hex_RGB)
 	    
-        #-----------------------------------------------------------------------
-        # update our status with a thank you message directed at the source.
-        # use try/except to catch potential failures.
-        #-----------------------------------------------------------------------
+        # Remainder code from Twitter-Stream-Responder example, left as stuff for auto-thanks if one should wish to implement that
         # status = "@%s thanks for the mention" % tweet["user"]["screen_name"]
         # try:
         #     twitter.statuses.update(status = status)
@@ -120,4 +100,3 @@ for tweet in tweet_iter:
         #     print " - failed (maybe a duplicate?): %s" % e
         
     time.sleep(sleep_time)
-
