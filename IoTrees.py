@@ -4,7 +4,7 @@
 # Run on a Raspberry Pi with Pimoroni Unicorn HAT; sets LED colour from 
 # received Tweet data.
 # 
-# Based heavily on on example code from Python Twitter Tools, http://mike.verdone.ca/twitter/
+# Based heavily on example code from Python Twitter Tools, http://mike.verdone.ca/twitter/
 # Uses rgb_to_kelvin by petrklus, https://gist.github.com/petrklus/b1f427accdf7438606a6
 # itself based on work by Tanner Helland, http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
 # Uses code based on Pimoroni Unicorn HAT examples,  https://github.com/pimoroni/unicorn-hat
