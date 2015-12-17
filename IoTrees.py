@@ -32,7 +32,7 @@ def colour_change(value):
             time.sleep(0.05)
 
 # Username we're treating tweets to as input
-username = "thinkphysicsne"
+username = "ThinkPhysicsNE"
 
 # sleep between tweets to avoid flooding.
 sleep_time = 1
