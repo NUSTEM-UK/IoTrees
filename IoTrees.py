@@ -4,13 +4,14 @@
 # Run on a Raspberry Pi with Pimoroni Unicorn HAT; sets LED colour from 
 # received Tweet data.
 # 
-# Based heavilyon on example code from Python Twitter Tools, http://mike.verdone.ca/twitter/
+# Based heavily on on example code from Python Twitter Tools, http://mike.verdone.ca/twitter/
 # Uses rgb_to_kelvin by petrklus, https://gist.github.com/petrklus/b1f427accdf7438606a6
 # itself based on work by Tanner Helland, http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
 # Uses code based on Pimoroni Unicorn HAT examples,  https://github.com/pimoroni/unicorn-hat
 # Extract hex strings example from http://stackoverflow.com/questions/18737788/extract-hexadecimal-number-from-string
 #
 # Author: Jonathan Sanderson, for Think Physics, Northumbria University
+# Version: December 17th 2015
 # 
 #-----------------------------------------------------------------------
 
@@ -72,13 +73,13 @@ for tweet in tweet_iter:
         extract_kelvin = re.findall(r'[0-9]{4,6}[kK]', tweet["text"], re.I)
         print "Extracted Kelvin temperatures: %s" % extract_kelvin
         
-        # Test if we have any Kelvin results, then:
+        # Test if we have any Kelvin results, then clean up and convert to RGB:
         if len(extract_kelvin):
             extract_kelvin = ''.join(extract_kelvin[0]) # get the first Kelvin extraction, as a list
             extract_kelvin = extract_kelvin.rstrip('K') # strip trailing K, if any
             extract_kelvin = extract_kelvin.rstrip('k') # strip trailing k, if any
-            extract_kelvin = extract_kelvin.rstrip(' ') # stirp trailing space, if any
-            extract_kelvin = int(''.join(extract_kelvin)) # cast to integer
+            extract_kelvin = extract_kelvin.rstrip(' ') # strip trailing space, if any
+            extract_kelvin = int(''.join(extract_kelvin)) # convert to string then cast to integer
             kelvin_RGB = kelvin_to_rgb(extract_kelvin)
             print "Kelvin RGB target: %s" % (kelvin_RGB,)
             print "Execute Unicorn to Kelvin RGB target"
@@ -86,13 +87,13 @@ for tweet in tweet_iter:
         
         # Kelvin input preferred (because Physics, obviously), but fall back to hex if that's present:
         elif len(extract_hex):
-            # discard all but first match, cast to string before passing to hex_to_rgb
+            # discard all but first match, convert to string before passing to hex_to_rgb
             hex_RGB = hex_to_rgb(''.join(extract_hex[0]))
             print "Hex RGB target: %s" % (hex_RGB,)
             print "Execute Unicorn to Hex RGB target"
             colour_change(hex_RGB)
 	    
-        # Remainder code from Twitter-Stream-Responder example, left as stuff for auto-thanks if one should wish to implement that
+        # Remainder code from Twitter-Stream-Responder example, left as stub for auto-thanks if one should wish to implement that
         # status = "@%s thanks for the mention" % tweet["user"]["screen_name"]
         # try:
         #     twitter.statuses.update(status = status)
