@@ -4,6 +4,10 @@ Whatever the 'Next Big Thing' is, there's apparently going to be an Internet Of 
 
 This code drives coloured lights from a Twitter stream. It's a ghastly hack, but in initial testing it mostly works. It's also our first Python code, so, you know, be gentle.
 
+## Project Story
+
+You can [read up on the project in detail at the Think Physics website](http://thinkphysics.org/activity/internet-of-trees/ "Internet of Trees | ThinkPhysics"). The following is more of a developers/hackers guide for anyone wishing to replicate the tree, or something like it.
+
 ## Hardware
 
 To replicate Think Physics' IoTree, you'll need:
