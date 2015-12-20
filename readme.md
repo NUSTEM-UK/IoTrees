@@ -21,13 +21,13 @@ To replicate Think Physics' IoTree, you'll need:
 Requires:
 
 * Unicorn HAT Python bindings: `\curl -sS get.pimoroni.com/unicornhat | bash`, if you're trusting; see [here](https://github.com/pimoroni/unicorn-hat) if you'd like more information before piping a URL straight to shell.
-* [Python Twitter Tools](http://mike.verdone.ca/twitter/ "Python Twitter Tools (command-line client and IRC bot)"). Once installed, follow [these instructions](https://github.com/sixohsix/twitter/tree/master#working-with-oauth) to acquire the necessary Twitter OAuth keys.
+* [Python Twitter Tools](http://mike.verdone.ca/twitter/ "Python Twitter Tools (command-line client and IRC bot)"). Once installed, follow [these instructions](https://github.com/sixohsix/twitter/tree/master#working-with-oauth) to acquire the necessary Twitter OAuth keys for the username use wish to follow.
 
 This code was copy-pasted together from examples and a bunch of StackExchange answers, with most of the "development" time spent with me trying to wrap my head around how to cast lists to string or integer. I've never written any Python before; pull requests which present better ways of doing things seen here are welcome!
 
 ### Configuration
 
-Set `username` (line 34) to the Twitter handle you wish to follow. Tweets to this user will be processed.
+Set `username` (line 34) to the Twitter handle your keys authenticate against. Tweets to this user will be processed.
 
 ## Usage
 
